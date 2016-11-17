@@ -48,8 +48,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     var mianBody = document.querySelector('.block');
                     var parentTr = target.parentNode.parentNode;
                     var parentId = parentTr.id;
-                    console.log(mianBody)
-                    window.history.replaceState(null, null, "#user"+parentId);
+                    // console.log(mianBody)
+                    window.history.replaceState('index.html', 'page 2', "#user"+parentId);
                     tBody.innerHTML = '';
                     for (var i = 0; i < response.length; i++) {
                         var tmpArticles = '<tr class="comment-tr">' +
