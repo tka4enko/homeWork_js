@@ -45,22 +45,24 @@ document.addEventListener('DOMContentLoaded', function () {
                 url: 'https://jsonplaceholder.typicode.com/posts?userId='+dataArticles,
                 type: 'GET',
                 success: function (response) {
-                    var mianBody = document.querySelector('body');
+                    var mianBody = document.querySelector('.block');
                     var parentTr = target.parentNode.parentNode;
                     var parentId = parentTr.id;
                     console.log(mianBody)
-                    history.pushState('indexfoo', "page 2", "#user"+parentId);
+                    window.history.replaceState(null, null, "#user"+parentId);
+                    tBody.innerHTML = '';
                     for (var i = 0; i < response.length; i++) {
-                        var tmpArticles = '<div class="container"><tr class="comment-tr">' +
+                        var tmpArticles = '<tr class="comment-tr">' +
                             '<td colspan="3" class="block-sm">' +
                             '<div class="block-title"><b>' + response[i].id + ' </b>' + response[i].title + '</div>' +
                             ' <div class="block-description">' + response[i].body + '</div>' +
                             '<button class="comment" data-comment="' + response[i].id + '">Получить комментарий</button>'
                         ' </td>' +
-                        ' </tr></div>';
+                        ' </tr>';
                         if (response[i].userId == parentId) {
                             // console.log(response[i])
-                            mianBody.innerHTML += tmpArticles;
+                            tBody.innerHTML += tmpArticles;
+
                         }
 
                     }
