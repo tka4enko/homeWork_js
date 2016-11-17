@@ -37,7 +37,6 @@ document.addEventListener('DOMContentLoaded', function () {
     var table = document.querySelector('table');
     table.addEventListener('click', function(event) {
         // event.stopPropagation();
-
     var target = event.target,
         dataArticles = target.getAttribute('data-articles');
         if(target.className == 'articles') {
