@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 // console.log(response[i].id)
                 var tmp = '<tr id ="'+response[i].id+'" >' +
                     '<td class="name">' + response[i].name + '</td>' +
-                    '<td class="phone">' + response[i].phone + '</td><td><button id="articles" type="submit">Отобразить статьи</button></td></tr>'
+                    '<td class="phone">' + response[i].phone + '</td><td><button class="articles" data-articles="'+response[i].id+'" type="submit">Отобразить статьи</button></td></tr>'
                       tBody.innerHTML += tmp
             }
         }
@@ -37,11 +37,11 @@ document.addEventListener('DOMContentLoaded', function () {
     var table = document.querySelector('table');
     table.addEventListener('click', function(event) {
         // event.stopPropagation();
-        var target = event.target;
-
-        if(target.id == 'articles') {
+    var target = event.target,
+        dataArticles = target.getAttribute('data-articles');
+        if(target.className == 'articles') {
             loadAjax({
-                url: 'https://jsonplaceholder.typicode.com/posts',
+                url: 'https://jsonplaceholder.typicode.com/posts?userId='+dataArticles,
                 type: 'GET',
                 success: function (response) {
                     var parentTr = target.parentNode.parentNode;
@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             '<td colspan="3" class="block-sm">' +
                             '<div class="block-title"><b>' + response[i].id + ' </b>' + response[i].title + '</div>' +
                             ' <div class="block-description">' + response[i].body + '</div>' +
-                            '<button class="comment" id="' + response[i].id + '">Получить комментарий</button>'
+                            '<button class="comment" data-comment="' + response[i].id + '">Получить комментарий</button>'
                         ' </td>' +
                         ' </tr>';
                         if (response[i].userId == parentId) {
@@ -64,8 +64,9 @@ document.addEventListener('DOMContentLoaded', function () {
             })
         }
         else if(target.className == 'comment' ){
+            var dataComment = target.getAttribute('data-comment');
             loadAjax({
-                url: 'https://jsonplaceholder.typicode.com/comments',
+                url: 'https://jsonplaceholder.typicode.com/comments?postId='+dataComment,
                 type: 'GET',
                 success: function (response) {
                     // console.log(response);
@@ -79,7 +80,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                            ' <div class="comment-description"><b>Content:</b>'+response[i].body+'</div>'+
                                            ' <div class="comment-email"><b>Email:</b>'+response[i].email+'</div>'+
                                    ' </div>';
-                        if(response[i].postId == target.id){
+                        if(response[i].postId == dataComment){
                             console.log(response[i])
                             parentCommet.insertAdjacentHTML('afterbegin', tmpComment);
                         }
